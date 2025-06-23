@@ -2,7 +2,7 @@
 
 A simple 16-bit Operating System written from scratch in Assembly language for a university project on Computer Architecture and Operating Systems.
 
-![Screenshot of ChathuraOS](https://imgur.com/a/yN9HAxw)
+![Screenshot of ChathuraOS](https://imgur.com/7QtRf7j)
 
 ---
 
