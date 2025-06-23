@@ -20,6 +20,12 @@ start:
     call print_string
     call print_newline
     call print_newline
+    mov si, help_intro
+    call print_string
+    call print_newline
+    call do_help
+    call print_newline
+
 
 ; === MAIN OS LOOP ===
 main_loop:
@@ -44,21 +50,44 @@ main_loop:
     call string_compare
     je .run_clear
 
+    mov si, input_buffer
+    mov di, cmd_about
+    call string_compare
+    je .run_about
+
+    mov si, input_buffer
+    mov di, cmd_date
+    call string_compare
+    je .run_date
+
+    mov si, input_buffer
+    mov di, cmd_time
+    call string_compare
+    je .run_time
+
     mov si, unknown_cmd_msg
     call print_string
     call print_newline
     jmp main_loop
 
+; --- Command Execution ---
 .run_help:
     call do_help
     jmp main_loop
-
 .run_info:
     call do_info
     jmp main_loop
-
 .run_clear:
     call clear_screen
+    jmp main_loop
+.run_about:
+    call do_about
+    jmp main_loop
+.run_date:
+    call do_date
+    jmp main_loop
+.run_time:
+    call do_time
     jmp main_loop
 
 
@@ -79,6 +108,53 @@ do_info:
     call print_newline
     ret
 
+do_about:
+    mov si, about_msg_1
+    call print_string
+    call print_newline
+    mov si, about_msg_2
+    call print_string
+    call print_newline
+    ret
+
+do_date:
+    mov si, date_prefix
+    call print_string
+    mov ah, 0x04
+    int 0x1a
+    mov al, ch
+    call print_bcd
+    mov al, cl
+    call print_bcd
+    mov si, separator
+    call print_string
+    mov al, dh
+    call print_bcd
+    mov si, separator
+    call print_string
+    mov al, dl
+    call print_bcd
+    call print_newline
+    ret
+
+do_time:
+    mov si, time_prefix
+    call print_string
+    mov ah, 0x02
+    int 0x1a
+    mov al, ch
+    call print_bcd
+    mov si, separator_time
+    call print_string
+    mov al, cl
+    call print_bcd
+    mov si, separator_time
+    call print_string
+    mov al, dh
+    call print_bcd
+    call print_newline
+    ret
+
 clear_screen:
     mov ah, 0x06
     mov al, 0
@@ -94,6 +170,22 @@ clear_screen:
     ret
 
 ; === CORE SUBROUTINES ===
+print_bcd:
+    pusha
+    mov ah, al
+    shr ah, 4
+    add ah, '0'
+    mov al, ah
+    mov ah, 0x0e
+    int 0x10
+    mov ah, al
+    and al, 0x0f
+    add al, '0'
+    mov ah, 0x0e
+    int 0x10
+    popa
+    ret
+
 read_string:
     pusha
 .loop:
@@ -191,17 +283,31 @@ print_decimal:
 ; === DATA ===
 welcome_msg_1: db 'Welcome to Chathura OS :)', 0
 welcome_msg_2: db 'Developed for the Computer Architecture and Operating System course module.', 0
+help_intro:    db 'Type one of the following commands and press Enter:', 0
 prompt:        db 'ChathuraOS >> ', 0
-unknown_cmd_msg: db 'Command not found. Type "help" for a list of commands.', 0
-help_msg:      db '  help  - Display this message', 0x0d, 0x0a,
+unknown_cmd_msg: db 'Command not found.', 0
+help_msg:      db '  about - Display information about this OS', 0x0d, 0x0a,
+               db '  date  - Display the current system date', 0x0d, 0x0a,
+               db '  time  - Display the current system time', 0x0d, 0x0a,
+               db '  help  - Display this message', 0x0d, 0x0a,
                db '  info  - Display system hardware information', 0x0d, 0x0a,
                db '  clear - Clear the screen', 0
 
+cmd_about:     db 'about', 0
 cmd_help:      db 'help', 0
 cmd_info:      db 'info', 0
 cmd_clear:     db 'clear', 0
+cmd_date:      db 'date', 0
+cmd_time:      db 'time', 0
 
 mem_msg:       db '  System Memory: ', 0
 kb_msg:        db ' KB', 0
+about_msg_1:   db '  ChathuraOS Version 1.0', 0
+about_msg_2:   db '  Copyright (C) 2025 by Chathura.', 0
+
+date_prefix:   db '  Current Date: ', 0
+time_prefix:   db '  Current Time: ', 0
+separator:     db '-', 0
+separator_time: db ':', 0
 
 input_buffer:  resb 64
