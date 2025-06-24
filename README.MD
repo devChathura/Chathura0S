@@ -8,7 +8,7 @@
   </p>
   <br>
   <p>
-    <img src="URL_TO_YOUR_MAIN_SCREENSHOT" alt="ChathuraOS Screenshot" width="80%">
+    <img src="./chathuraOS.png" alt="ChathuraOS Screenshot" width="80%">
   </p>
 </div>
 
@@ -35,8 +35,8 @@ This OS was built from the ground up and includes a variety of core features tha
     <td align="center"><strong>System Info & Date/Time</strong></td>
   </tr>
   <tr>
-    <td><img src="URL_TO_WELCOME_SCREENSHOT" alt="Welcome Screen" width="100%"></td>
-    <td><img src="URL_TO_INFO_SCREENSHOT" alt="Info Screen" width="100%"></td>
+    <td><img src="./screenshots/welcome.png" alt="Welcome Screen" width="100%"></td>
+    <td><img src="./screenshots/info.png" alt="Info Screen" width="100%"></td>
   </tr>
 </table>
 
