@@ -12,11 +12,18 @@ A simple 16-bit Operating System written from scratch in Assembly language for a
 - Interactive command shell that reads and processes user input.
 - **Built-in commands:**
   - `about`: Displays information about the OS and its author.
+    ![Screenshot of about command](./screenshots/about.png)
   - `date`: Shows the current system date from the hardware clock.
+    ![Screenshot of about command](./screenshots/date.png)
   - `time`: Shows the current system time from the hardware clock.
+    ![Screenshot of about command](./screenshots/time.png)
   - `info`: Displays basic hardware information (system memory).
+    ![Screenshot of about command](./screenshots/info.png)
   - `help`: Shows the list of available commands.
+    ![Screenshot of about command](./screenshots/help.png)
   - `clear`: Clears the screen.
+    ![Screenshot of about command](./screenshots/clear.png)
+    ![Screenshot of about command](./screenshots/clear2.png)
 
 ## Development Environment
 
