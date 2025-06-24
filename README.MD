@@ -20,7 +20,7 @@ A simple 16-bit Operating System written from scratch in Assembly language for a
   - `info`: Displays basic hardware information (system memory).
     ![Screenshot of about command](./screenshots/info.png)
   - `help`: Shows the list of available commands.
-    ![Screenshot of about command](./screenshots/help.png)
+    ![Screenshot of about command](./screenshots/welcome.png)
   - `clear`: Clears the screen.
     ![Screenshot of about command](./screenshots/clear.png)
     ![Screenshot of about command](./screenshots/clear2.png)
