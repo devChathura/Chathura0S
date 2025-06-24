@@ -120,19 +120,21 @@ do_about:
 do_date:
     mov si, date_prefix
     call print_string
-    mov ah, 0x04
+    mov ah, 0x04        ; BIOS Get System Date function
     int 0x1a
-    mov al, ch
+    ; CH = Century (BCD), CL = Year (BCD)
+    ; DH = Month (BCD), DL = Day (BCD)
+    mov al, ch          ; Print Century (e.g., 20)
     call print_bcd
-    mov al, cl
-    call print_bcd
-    mov si, separator
-    call print_string
-    mov al, dh
+    mov al, cl          ; Print Year (e.g., 25)
     call print_bcd
     mov si, separator
     call print_string
-    mov al, dl
+    mov al, dh          ; Print Month
+    call print_bcd
+    mov si, separator
+    call print_string
+    mov al, dl          ; Print Day
     call print_bcd
     call print_newline
     ret
@@ -140,17 +142,18 @@ do_date:
 do_time:
     mov si, time_prefix
     call print_string
-    mov ah, 0x02
+    mov ah, 0x02        ; BIOS Get System Time function
     int 0x1a
-    mov al, ch
+    ; CH = Hour (BCD), CL = Minute (BCD), DH = Second (BCD)
+    mov al, ch          ; Print Hour
     call print_bcd
     mov si, separator_time
     call print_string
-    mov al, cl
+    mov al, cl          ; Print Minute
     call print_bcd
     mov si, separator_time
     call print_string
-    mov al, dh
+    mov al, dh          ; Print Second
     call print_bcd
     call print_newline
     ret
@@ -170,17 +173,18 @@ clear_screen:
     ret
 
 ; === CORE SUBROUTINES ===
-print_bcd:
+print_bcd:              ; NEW: Prints a BCD value from AL
     pusha
-    mov ah, al
-    shr ah, 4
-    add ah, '0'
-    mov al, ah
+    mov ah, al          ; Copy the BCD byte
+    shr ah, 4           ; Get the high digit
+    add ah, '0'         ; Convert to ASCII
+    mov al, ah          ; Move to AL for printing
     mov ah, 0x0e
     int 0x10
-    mov ah, al
-    and al, 0x0f
-    add al, '0'
+
+    mov ah, al          ; Get original BCD byte back
+    and al, 0x0f        ; Get the low digit
+    add al, '0'         ; Convert to ASCII
     mov ah, 0x0e
     int 0x10
     popa
